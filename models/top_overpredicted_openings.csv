@@ -1,0 +1,6 @@
+Movie,TheatersOpenWeek,Budget,opening_weekend_mil,predicted_opening_mil,absolute_error_mil,primary_genre
+Harry Potter and the Half-Blood Prince,4325.0,250.0,77.8,107.71619040589553,29.916190405895534,Adventure
+How to Train Your Dragon,4055.0,165.0,43.7,66.83866254866115,23.138662548661145,Animation
+Night at the Museum: Battle of the Smithsonian,4096.0,150.0,54.2,74.50885642812158,20.308856428121572,Action
+Jack the Giant Slayer,3525.0,195.0,27.2,44.295162049486635,17.095162049486635,Action
+Prince of Persia: The Sands of Time,3646.0,200.0,30.0,46.30329907091867,16.30329907091867,Action

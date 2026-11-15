@@ -1,0 +1,6 @@
+Model,R2 Score,MAE ($M),Median AE ($M),RMSE ($M)
+Dummy Regressor (Mean Baseline),-0.1513,16.06,8.1,28.0
+Ridge Regression (Linear Baseline),0.5751,9.79,5.25,17.01
+Random Forest Regressor (Bagging),0.775,7.83,4.17,12.38
+Gradient Boosting Regressor (Boosting),0.7852,7.7,4.69,12.09
+Tuned Gradient Boosting Regressor,0.7331,8.03,4.18,13.48

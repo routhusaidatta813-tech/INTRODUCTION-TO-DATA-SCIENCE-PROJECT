@@ -1,0 +1,26 @@
+{
+    "Dummy Regressor (Mean Baseline)": {
+        "R2 (mean)": -0.006910041318885352,
+        "R2 (std)": 0.006767996404431137,
+        "MAE_log (mean)": 0.3889459282970624,
+        "MAE_log (std)": 0.02814972089969882
+    },
+    "Ridge Regression (Linear Baseline)": {
+        "R2 (mean)": 0.5648755571935877,
+        "R2 (std)": 0.029147235847739438,
+        "MAE_log (mean)": 0.24989069583093565,
+        "MAE_log (std)": 0.016179992259360704
+    },
+    "Random Forest Regressor (Bagging)": {
+        "R2 (mean)": 0.6101499292838322,
+        "R2 (std)": 0.04214008746183651,
+        "MAE_log (mean)": 0.22817462405561878,
+        "MAE_log (std)": 0.010498931382761676
+    },
+    "Gradient Boosting Regressor (Boosting)": {
+        "R2 (mean)": 0.5779174433020234,
+        "R2 (std)": 0.04011415670988038,
+        "MAE_log (mean)": 0.24037553758436472,
+        "MAE_log (std)": 0.007308045893914632
+    }
+}

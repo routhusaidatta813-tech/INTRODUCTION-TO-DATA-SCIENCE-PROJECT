@@ -1,0 +1,5 @@
+Hypothesis Test,Null Hypothesis (H0),Feature Analyzed,Test Statistic,p-value,Conclusion (alpha=0.05)
+Welch's t-Test,Sequel Mean == Non-Sequel Mean,is_sequel_or_franchise,5.5327,2.9152e-07,Reject H0 (Sequels open significantly higher)
+One-Way ANOVA,Equal Opening Means Across All Genres,primary_genre,13.6858,1.1411e-16,Reject H0 (Genres differ significantly)
+Welch's t-Test,Major Studio Mean == Independent Mean,is_major_studio,7.434,3.0265e-13,Reject H0 (Major studios dominate opening weekend)
+Welch's t-Test,Low Competition Mean == High Competition Mean,competition_count,1.9945,5.1099e-02,Reject H0 (Cannibalization confirmed at p<=0.05)
