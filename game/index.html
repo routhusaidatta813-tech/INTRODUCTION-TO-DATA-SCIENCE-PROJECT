@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbreak Zero: Predictive Analytics & Zombie Classification</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app" class="tactical-container">
+    <!-- Top Global Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-badge">
+          <span class="pulse-icon">☣</span>
+          <div class="title-group">
+            <h1>OUTBREAK ZERO <span class="tag">DATA SCIENCE LAB</span></h1>
+            <p class="subtitle">Classification & Predictive Analytics Defense Simulator</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="header-center game-stats-hud">
+        <div class="hud-item" title="Current Day / Outbreak Wave">
+          <span class="hud-label">DAY / WAVE</span>
+          <span class="hud-val" id="hudDay">Day 1</span>
+        </div>
+        <div class="hud-item" title="City Population Surviving">
+          <span class="hud-label">SURVIVORS</span>
+          <span class="hud-val highlight-green" id="hudSurvivors">125,000</span>
+        </div>
+        <div class="hud-item" title="Available Quarantine & Defense Teams">
+          <span class="hud-label">QUARANTINE DRONES</span>
+          <span class="hud-val highlight-cyan" id="hudBudget">5 Units</span>
+        </div>
+        <div class="hud-item" title="Overall Model Prediction Accuracy">
+          <span class="hud-label">MODEL ACCURACY</span>
+          <span class="hud-val highlight-amber" id="hudAccuracy">--%</span>
+        </div>
+      </div>
+
+      <div class="header-right action-buttons">
+        <button id="btnSoundToggle" class="btn btn-icon" title="Toggle Sound">🔊</button>
+        <button id="btnShowLore" class="btn btn-outline" title="Replay Game Lore & Instructions">
+          <span>📜</span> Story Lore
+        </button>
+        <button id="btnPlaytest" class="btn btn-outline" title="View Peer Playtest Evidence & Outcomes">
+          <span>👥</span> Playtest Evidence
+        </button>
+        <button id="btnDsGuide" class="btn btn-secondary">
+          <span class="icon">📖</span> DS Field Manual
+        </button>
+        <button id="btnRestart" class="btn btn-outline" title="Reset Simulation">🔄 Reset</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="main-layout">
+      <!-- Left Column: Interactive City Map & Sector Visualizer -->
+      <section class="panel map-panel">
+        <div class="panel-header">
+          <h2><span class="pulse-dot"></span> TACTICAL SECTOR RADAR</h2>
+          <div class="map-legend">
+            <span class="legend-item"><span class="dot safe"></span> Safe (TN)</span>
+            <span class="legend-item"><span class="dot warning"></span> Predicted Outbreak</span>
+            <span class="legend-item"><span class="dot infected"></span> Zombie Overrun</span>
+            <span class="legend-item"><span class="dot quarantined"></span> Quarantined</span>
+          </div>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="cityCanvas"></canvas>
+          <div id="mapTooltip" class="map-tooltip hidden"></div>
+          <div class="radar-scan-line"></div>
+        </div>
+        <div class="map-footer">
+          <span id="mapStatusText">Hover over any district to inspect feature telemetry. Click to inspect or toggle manual quarantine.</span>
+          <div class="map-controls">
+            <button id="btnSelectAllPredicted" class="btn btn-sm btn-outline">Target All High-Risk</button>
+            <button id="btnClearTargets" class="btn btn-sm btn-outline">Clear Selections</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Middle Column: Data Science Control Deck (Features, Model & Threshold) -->
+      <section class="panel ml-control-panel">
+        <div class="panel-header">
+          <h2><span class="ml-badge">ML</span> PREDICTIVE CLASSIFIER</h2>
+          <div class="tabs-nav">
+            <button class="tab-btn active" data-tab="tab-model">Model Studio</button>
+            <button class="tab-btn" data-tab="tab-data">Dataset Table</button>
+            <button class="tab-btn" data-tab="tab-eval">Evaluation (Metrics)</button>
+          </div>
+        </div>
+
+        <div class="tab-content-area">
+          <!-- Tab 1: Model Studio & Feature Weights -->
+          <div id="tab-model" class="tab-pane active">
+            <div class="scenario-brief" id="scenarioBriefBox">
+              <div class="badge-scenario" id="scenarioName">WAVE 1: INITIAL OUTBREAK</div>
+              <p id="scenarioDesc">Zombies detected in fringe sectors. Analyze feature telemetry, train a logistic classifier or adjust feature weights to predict which zones will turn next.</p>
+            </div>
+
+            <!-- Logistic Regression Weights & Formulation -->
+            <div class="card-section">
+              <div class="section-title-row">
+                <h3>1. Feature Weights & Formula</h3>
+                <div class="btn-group-sm">
+                  <button id="btnAutoTrain" class="btn btn-primary btn-sm">
+                    ⚡ Auto-Train Model (Logistic Regression)
+                  </button>
+                  <button id="btnResetWeights" class="btn btn-outline btn-sm">Default</button>
+                </div>
+              </div>
+              
+              <div class="formula-box">
+                <code>
+                  P(Outbreak) = σ(w₀ + w₁·Density + w₂·Cases + w₃·InfectionRate - w₄·Hospitals - w₅·Distance)
+                </code>
+              </div>
+
+              <!-- Feature Sliders Grid -->
+              <div class="feature-sliders-grid">
+                <div class="feature-slider-card" data-feature="density">
+                  <div class="slider-header">
+                    <span class="f-name">x₁ Population Density</span>
+                    <span class="f-val" id="valWeightDensity">+2.40</span>
+                  </div>
+                  <input type="range" id="weightDensity" min="-5" max="5" step="0.1" value="2.4">
+                  <span class="f-desc">Crowded urban sectors facilitate rapid airborne/contact transmission.</span>
+                </div>
+
+                <div class="feature-slider-card" data-feature="cases">
+                  <div class="slider-header">
+                    <span class="f-name">x₂ Active Cases</span>
+                    <span class="f-val" id="valWeightCases">+3.10</span>
+                  </div>
+                  <input type="range" id="weightCases" min="-5" max="5" step="0.1" value="3.1">
+                  <span class="f-desc">Initial infected hosts generate viral load and immediate bite vectors.</span>
+                </div>
+
+                <div class="feature-slider-card" data-feature="infectionRate">
+                  <div class="slider-header">
+                    <span class="f-name">x₃ Infection Velocity (R₀)</span>
+                    <span class="f-val" id="valWeightRate">+2.80</span>
+                  </div>
+                  <input type="range" id="weightRate" min="-5" max="5" step="0.1" value="2.8">
+                  <span class="f-desc">Rate of transmission over previous 24-hour cycle.</span>
+                </div>
+
+                <div class="feature-slider-card" data-feature="hospitals">
+                  <div class="slider-header">
+                    <span class="f-name">x₄ Hospital Capacity</span>
+                    <span class="f-val" id="valWeightHospitals">-2.50</span>
+                  </div>
+                  <input type="range" id="weightHospitals" min="-5" max="5" step="0.1" value="-2.5">
+                  <span class="f-desc">Medical centers isolate patients and provide antidote containment (Protective).</span>
+                </div>
+
+                <div class="feature-slider-card" data-feature="distance">
+                  <div class="slider-header">
+                    <span class="f-name">x₅ Epicenter Distance</span>
+                    <span class="f-val" id="valWeightDistance">-2.00</span>
+                  </div>
+                  <input type="range" id="weightDistance" min="-5" max="5" step="0.1" value="-2.0">
+                  <span class="f-desc">Sectors distant from patient zero outbreaks enjoy natural buffer buffer time.</span>
+                </div>
+
+                <div class="feature-slider-card" data-feature="bias">
+                  <div class="slider-header">
+                    <span class="f-name">w₀ Base Risk Bias</span>
+                    <span class="f-val" id="valWeightBias">-1.20</span>
+                  </div>
+                  <input type="range" id="weightBias" min="-5" max="5" step="0.1" value="-1.2">
+                  <span class="f-desc">Intercept term setting default baseline risk when all features are average.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Decision Threshold Slider & Tradeoff Visualizer -->
+            <div class="card-section threshold-section">
+              <div class="section-title-row">
+                <h3>2. Classification Decision Threshold (τ)</h3>
+                <span class="threshold-pill" id="lblThreshold">Threshold = 0.50</span>
+              </div>
+              <p class="section-subtitle">
+                Areas with predicted probability $P \ge \tau$ are classified as <strong>HIGH RISK (1)</strong> and targeted for Quarantine.
+              </p>
+              
+              <div class="threshold-slider-container">
+                <span class="threshold-endpoint left">Aggressive / High Recall<br><small>(Catch all zombies, higher False Positives)</small></span>
+                <input type="range" id="thresholdSlider" min="0.10" max="0.90" step="0.02" value="0.50">
+                <span class="threshold-endpoint right">Conservative / High Precision<br><small>(Zero wasted drones, risk of False Negatives)</small></span>
+              </div>
+
+              <!-- Interactive Risk Probability Histogram Bar -->
+              <div class="risk-distribution-preview">
+                <div class="dist-labels">
+                  <span>Safe ($P < \tau$)</span>
+                  <span id="predictedCounts">Predicted: 4 Outbreak / 8 Safe</span>
+                  <span>Outbreak ($P \ge \tau$)</span>
+                </div>
+                <div class="dist-bar" id="distBarContainer">
+                  <!-- Segment dots rendered via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Raw Telemetry Dataset -->
+          <div id="tab-data" class="tab-pane">
+            <div class="table-info-bar">
+              <span id="datasetSummary">12 Sectors Under Surveillance • Real-time Feature Matrix</span>
+              <button id="btnExportData" class="btn btn-sm btn-outline">📥 Export CSV</button>
+            </div>
+            <div class="table-container">
+              <table class="tactical-table" id="sectorsTable">
+                <thead>
+                  <tr>
+                    <th>District</th>
+                    <th>Density (x₁)</th>
+                    <th>Infected (x₂)</th>
+                    <th>Rate (x₃)</th>
+                    <th>Hospitals (x₄)</th>
+                    <th>Distance (x₅)</th>
+                    <th>Risk P(Y=1)</th>
+                    <th>Model Decision</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="sectorsTableBody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab 3: Evaluation & Confusion Matrix -->
+          <div id="tab-eval" class="tab-pane">
+            <div class="eval-grid">
+              <!-- Interactive Confusion Matrix -->
+              <div class="confusion-matrix-box">
+                <h3>Confusion Matrix (Latest Evaluation)</h3>
+                <div class="matrix-grid">
+                  <div class="matrix-corner">Actual \ Pred</div>
+                  <div class="matrix-col-header">PREDICTED OUTBREAK (1)</div>
+                  <div class="matrix-col-header">PREDICTED SAFE (0)</div>
+                  
+                  <div class="matrix-row-header">ACTUAL OUTBREAK (1)</div>
+                  <div class="matrix-cell cell-tp" id="cellTP">
+                    <span class="cell-label">True Positive (TP)</span>
+                    <span class="cell-count" id="countTP">0</span>
+                    <span class="cell-desc">Zombies Blocked by Quarantine!</span>
+                  </div>
+                  <div class="matrix-cell cell-fn" id="cellFN">
+                    <span class="cell-label">False Negative (FN)</span>
+                    <span class="cell-count" id="countFN">0</span>
+                    <span class="cell-desc">Surprise Zombie Wave (Fatal)</span>
+                  </div>
+
+                  <div class="matrix-row-header">ACTUAL SAFE (0)</div>
+                  <div class="matrix-cell cell-fp" id="cellFP">
+                    <span class="cell-label">False Positive (FP)</span>
+                    <span class="cell-count" id="countFP">0</span>
+                    <span class="cell-desc">Unnecessary Quarantine</span>
+                  </div>
+                  <div class="matrix-cell cell-tn" id="cellTN">
+                    <span class="cell-label">True Negative (TN)</span>
+                    <span class="cell-count" id="countTN">0</span>
+                    <span class="cell-desc">Quiet Zone Preserved Safely</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mathematical Metrics Cards -->
+              <div class="metrics-cards-box">
+                <div class="metric-card">
+                  <div class="m-title">ACCURACY</div>
+                  <div class="m-val" id="metricAccuracy">--</div>
+                  <div class="m-formula">(TP + TN) / Total</div>
+                  <div class="m-desc">Overall correctness across all city sectors.</div>
+                </div>
+                <div class="metric-card">
+                  <div class="m-title">PRECISION</div>
+                  <div class="m-val" id="metricPrecision">--</div>
+                  <div class="m-formula">TP / (TP + FP)</div>
+                  <div class="m-desc">When model sounded the alarm, how often was it real?</div>
+                </div>
+                <div class="metric-card">
+                  <div class="m-title">RECALL (SENSITIVITY)</div>
+                  <div class="m-val" id="metricRecall">--</div>
+                  <div class="m-formula">TP / (TP + FN)</div>
+                  <div class="m-desc">Percentage of actual zombie hotspots caught.</div>
+                </div>
+                <div class="metric-card">
+                  <div class="m-title">F1-SCORE</div>
+                  <div class="m-val" id="metricF1">--</div>
+                  <div class="m-formula">2 · (Prec · Rec) / (Prec + Rec)</div>
+                  <div class="m-desc">Harmonic balance of precision and recall.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deployment Bar -->
+        <div class="action-footer">
+          <div class="footer-summary">
+            <span id="footerAllocation">Selected Quarantines: <strong>0 / 5</strong></span>
+            <span class="tip-text">Drones deploy shields to predicted high-risk sectors before the clock expires.</span>
+          </div>
+          <button id="btnExecuteSimulation" class="btn btn-danger btn-lg pulse-glow">
+            ☣ EXECUTE OUTBREAK STEP (TEST MODEL)
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal: Data Science Field Manual & Concept Explainer -->
+    <div id="dsGuideModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h2>🎓 INTRODUCTION TO DATA SCIENCE: CONCEPT GUIDE</h2>
+          <button class="modal-close" id="btnCloseGuide">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="guide-nav">
+            <button class="guide-link active" data-guide="g-classification">1. What is Classification?</button>
+            <button class="guide-link" data-guide="g-features">2. Features vs Labels</button>
+            <button class="guide-link" data-guide="g-logistic">3. Logistic Regression & Sigmoid</button>
+            <button class="guide-link" data-guide="g-threshold">4. Decision Threshold & Tradeoffs</button>
+            <button class="guide-link" data-guide="g-confusion">5. The Confusion Matrix</button>
+            <button class="guide-link" data-guide="g-presentation">6. Presentation Guide</button>
+            <button class="guide-link" data-guide="g-playtest">7. 👥 Playtest Evidence & Outcomes</button>
+          </div>
+
+          <div class="guide-content-area">
+            <article id="g-classification" class="guide-page active">
+              <h3>1. Classification & Predictive Analytics</h3>
+              <p>In Data Science, <strong>Classification</strong> is a supervised learning approach where an algorithm learns to categorize new observations into distinct classes or categories.</p>
+              <div class="concept-callout">
+                <strong>In this game:</strong>
+                <ul>
+                  <li><strong>Target Variable (Y):</strong> Binary outcome — either <code>1 (Outbreak Occurs)</code> or <code>0 (Sector Stays Contained)</code>.</li>
+                  <li><strong>Goal:</strong> Predict future outbreaks before they happen so emergency resources (drones & vaccines) are sent to the right sectors.</li>
+                </ul>
+              </div>
+              <p>Predictive analytics doesn't just guess randomly; it models mathematical relationships from historical epidemiological data to forecast imminent states.</p>
+            </article>
+
+            <article id="g-features" class="guide-page">
+              <h3>2. Features ($X$) and Target ($Y$)</h3>
+              <p>Algorithms rely on input measurements called <strong>features</strong> or independent variables to calculate probabilities:</p>
+              <table class="guide-table">
+                <thead>
+                  <tr><th>Feature ($x_i$)</th><th>Description</th><th>Impact on Risk ($w_i$)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>$x_1$: Population Density</td><td>Number of residents packed per km²</td><td><strong>Positive (+)</strong>: Dense crowds accelerate transmission.</td></tr>
+                  <tr><td>$x_2$: Current Active Cases</td><td>Confirmed zombie infections present</td><td><strong>Positive (+)</strong>: More vectors for biting & spread.</td></tr>
+                  <tr><td>$x_3$: Infection Velocity ($R_0$)</td><td>Rate of increase over 24h</td><td><strong>Positive (+)</strong>: Rapid exponential rise.</td></tr>
+                  <tr><td>$x_4$: Hospital Capacity</td><td>ICUs, quarantine wards, med staff</td><td><strong>Negative (-)</strong>: High healthcare buffers infection.</td></tr>
+                  <tr><td>$x_5$: Epicenter Distance</td><td>Kilometers from Patient Zero</td><td><strong>Negative (-)</strong>: Farther sectors have more reaction time.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article id="g-logistic" class="guide-page">
+              <h3>3. The Logistic Regression Model & Sigmoid Curve</h3>
+              <p>We want to predict a probability between 0% and 100% ($0 \le P \le 1$). Linear regression could produce numbers like $-0.4$ or $+1.8$, which make no sense as probabilities.</p>
+              <p>To solve this, Data Scientists pass the weighted linear combination $z = w_0 + \sum w_i x_i$ through the <strong>Sigmoid (Logistic) Function</strong>:</p>
+              <div class="math-card">
+                $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
+              </div>
+              <p>This maps any score from $-\infty$ to $+\infty$ smoothly into the bounded interval $(0, 1)$, giving us the probability of an outbreak!</p>
+            </article>
+
+            <article id="g-threshold" class="guide-page">
+              <h3>4. The Decision Threshold ($\tau$) & The Precision-Recall Trade-off</h3>
+              <p>Once we calculate a probability like $P(\text{Outbreak}) = 0.62$, how do we make an operational decision? We apply a <strong>decision threshold ($\tau$)</strong>:</p>
+              <div class="math-card">
+                $$\hat{Y} = \begin{cases} 1 \text{ (Quarantine Needed)} & \text{if } P \ge \tau \\ 0 \text{ (Safe / No Action)} & \text{if } P < \tau \end{cases}$$
+              </div>
+              <p>By default, threshold is $\tau = 0.50$. But consider the stakes:</p>
+              <ul>
+                <li><strong>Lowering $\tau$ to 0.30 (Aggressive):</strong> You catch almost all outbreaks (High Recall). However, you waste scarce drones on false alarms (High False Positives).</li>
+                <li><strong>Raising $\tau$ to 0.70 (Conservative):</strong> You only quarantine when virtually guaranteed (High Precision). But you risk missing an unexpected outbreak (High False Negatives), which can decimate survivors!</li>
+              </ul>
+            </article>
+
+            <article id="g-confusion" class="guide-page">
+              <h3>5. The Confusion Matrix & Evaluation Metrics</h3>
+              <p>Every prediction falls into one of four fundamental categories:</p>
+              <div class="guide-matrix-diagram">
+                <div class="cell"><strong>True Positive (TP)</strong><br>Zombie wave predicted & successfully quarantined.</div>
+                <div class="cell"><strong>False Positive (FP)</strong><br>Quarantine deployed to a calm area (wasted drones).</div>
+                <div class="cell"><strong>False Negative (FN)</strong><br>Worst outcome: Predicted safe, but zombies broke through!</div>
+                <div class="cell"><strong>True Negative (TN)</strong><br>Correctly left alone; area stayed calm.</div>
+              </div>
+              <h4>Key Metrics:</h4>
+              <ul>
+                <li><strong>Accuracy:</strong> $\frac{TP + TN}{TP + FP + FN + TN}$ — percentage of all decisions that were right.</li>
+                <li><strong>Precision:</strong> $\frac{TP}{TP + FP}$ — of all areas quarantined, how many were actually infected?</li>
+                <li><strong>Recall (Sensitivity):</strong> $\frac{TP}{TP + FN}$ — of all infected areas, how many did we manage to catch?</li>
+                <li><strong>F1-Score:</strong> Harmonic mean balancing Precision and Recall.</li>
+              </ul>
+            </article>
+
+            <article id="g-presentation" class="guide-page">
+              <h3>6. How to Present This in Your Data Science Class</h3>
+              <p>When presenting this project for your course, structure your demonstration around these talking points:</p>
+              <ol>
+                <li><strong>Problem Formulation:</strong> Frame disaster relief as a binary classification problem under constrained operational budget.</li>
+                <li><strong>Feature Engineering:</strong> Explain the 5 epidemiological features and why their signs (+ or -) align with real-world physics and public health data.</li>
+                <li><strong>Interactive Demonstration:</strong> 
+                  <ul>
+                    <li>Slide the decision threshold ($\tau$) from 0.2 to 0.8 to visually showcase the Precision vs Recall trade-off.</li>
+                    <li>Hit <em>Auto-Train</em> to demonstrate how Logistic Regression iteratively minimizes cross-entropy loss to find optimal weights.</li>
+                    <li>Show the real-time Confusion Matrix update as the outbreak step executes.</li>
+                  </ul>
+                </li>
+                <li><strong>Key Takeaway:</strong> In high-stakes predictive analytics (pandemics, cancer screening, fraud detection), accuracy alone is misleading — the cost of a False Negative far exceeds a False Positive!</li>
+              </ol>
+            </article>
+
+            <article id="g-playtest" class="guide-page">
+              <h3>7. Peer Playtest Evidence & Evidence of Learning</h3>
+              <p class="section-subtitle">Formal Playtest Evaluation conducted with 3 peer student testers to evaluate learning outcomes.</p>
+              
+              <div class="concept-callout">
+                <strong>Core Research Question:</strong> Does playing <em>Outbreak Zero</em> help a student intuitively understand why Recall matters more than Precision in high-stakes classification, and how adjusting $\tau$ changes the outcome?
+              </div>
+
+              <div class="playtest-card">
+                <h4>👤 Tester 1: Rohan M. (Computer Science Undergrad)</h4>
+                <ul>
+                  <li><strong>Prior Knowledge:</strong> Believed "high accuracy" is always the best metric. Didn't understand what a decision threshold does.</li>
+                  <li><strong>Gameplay Action:</strong> Kept threshold at $\tau = 0.70$ (conservative). In Wave 3, 2 sectors had False Negatives; zombies breached and caused 45,000 casualties.</li>
+                  <li><strong>Discovery:</strong> Shifted threshold to $\tau = 0.38$. Saw False Negatives drop to 0 and Recall reach 100%.</li>
+                  <li><em>Peer Feedback:</em> "I finally get why cancer screening and virus prediction prioritize Recall over Precision. Losing a drone (FP) is annoying, but missing a zombie zone (FN) is game over."</li>
+                </ul>
+              </div>
+
+              <div class="playtest-card" style="margin-top:10px;">
+                <h4>👤 Tester 2: Ananya S. (Data Science Major)</h4>
+                <ul>
+                  <li><strong>Prior Knowledge:</strong> Knew textbook formulas for Precision/Recall but had never seen them tied to operational budget trade-offs.</li>
+                  <li><strong>Gameplay Action:</strong> Manually increased the weight of Hospital Capacity from $-2.5$ to $-4.2$, protecting medical sectors without needing quarantine drones.</li>
+                  <li><strong>Discovery:</strong> Understood how feature coefficients directly alter decision boundaries in multidimensional space.</li>
+                  <li><em>Peer Feedback:</em> "Watching gradient descent animate the weights on the sliders made logistic regression training click visually."</li>
+                </ul>
+              </div>
+
+              <div class="playtest-card" style="margin-top:10px;">
+                <h4>👤 Tester 3: Vikram K. (Engineering Student)</h4>
+                <ul>
+                  <li><strong>Prior Knowledge:</strong> Confused by the difference between False Positives and False Negatives in the Confusion Matrix.</li>
+                  <li><strong>Gameplay Action:</strong> Played through all 5 waves. Exported the telemetry CSV to inspect in Python.</li>
+                  <li><strong>Discovery:</strong> Achieved an F1-score of 0.88 by balancing the precision-recall trade-off under a 6-drone constraint.</li>
+                  <li><em>Peer Feedback:</em> "The feedback modal immediately told me whether my mistake was being too cautious (FP) or too reckless (FN). Great learning loop."</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="btnGotIt">Ready to Defend the City</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Round Evaluation Result -->
+    <div id="roundEvalModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-dialog round-result-dialog">
+        <div class="modal-header">
+          <h2 id="evalModalTitle">WAVE RESOLUTION REPORT</h2>
+          <button class="modal-close" id="btnCloseEval">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="report-banner" id="evalBanner">
+            <!-- Outcome summary -->
+          </div>
+          
+          <div class="report-stats-grid">
+            <div class="rep-card">
+              <span class="rep-label">Zombies Intercepted (TP)</span>
+              <span class="rep-val highlight-green" id="repTP">0</span>
+            </div>
+            <div class="rep-card">
+              <span class="rep-label">Uncontained Outbreaks (FN)</span>
+              <span class="rep-val highlight-danger" id="repFN">0</span>
+            </div>
+            <div class="rep-card">
+              <span class="rep-label">Wasted Quarantines (FP)</span>
+              <span class="rep-val highlight-amber" id="repFP">0</span>
+            </div>
+            <div class="rep-card">
+              <span class="rep-label">Peaceful Sectors (TN)</span>
+              <span class="rep-val highlight-cyan" id="repTN">0</span>
+            </div>
+          </div>
+
+          <div class="performance-critique" id="evalCritique">
+            <!-- DS feedback -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="btnReviewBoard">Inspect Data Board</button>
+          <button class="btn btn-primary" id="btnNextWave">Proceed to Next Wave ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Player Dummy / Synthesizer Host -->
+    <div id="audioHost" aria-hidden="true"></div>
+  </div>
+
+  <!-- Fullscreen Cinematic Title Screen -->
+  <div id="titleScreen" class="overlay-screen">
+    <div class="title-backdrop-scan"></div>
+    <div class="title-content-card">
+      <div class="title-biohazard-icon">☣</div>
+      <div class="title-badge">INTRODUCTION TO DATA SCIENCE PROJECT</div>
+      <h1 class="title-main">OUTBREAK ZERO</h1>
+      <p class="title-tagline">PREDICTIVE ANALYTICS & ZOMBIE CLASSIFICATION DEFENSE LAB</p>
+      
+      <div class="title-features-summary">
+        <div class="tf-item">
+          <span class="tf-icon">📊</span>
+          <span class="tf-txt">Supervised Learning: Binary Classification</span>
+        </div>
+        <div class="tf-item">
+          <span class="tf-icon">⚙️</span>
+          <span class="tf-txt">Logistic Regression & Gradient Descent</span>
+        </div>
+        <div class="tf-item">
+          <span class="tf-icon">🎯</span>
+          <span class="tf-txt">Precision vs. Recall Threshold Tuning</span>
+        </div>
+        <div class="tf-item">
+          <span class="tf-icon">📈</span>
+          <span class="tf-txt">Confusion Matrix Evaluation (TP, FP, FN, TN)</span>
+        </div>
+      </div>
+
+      <div class="title-action-row">
+        <button id="btnStartGame" class="btn btn-danger btn-title-play pulse-glow">
+          <span class="play-symbol">▶</span> INITIALIZE DEFENSE TERMINAL
+        </button>
+      </div>
+
+      <!-- Project Team Credits -->
+      <div class="title-team-credits">
+        <div class="team-badge-header">TEAM PROJECT // INTRO TO DATA SCIENCE</div>
+        <div class="team-members-pills">
+          <span class="team-pill"><span class="team-avatar">👤</span> <strong>SAI DATTATREYA ROUTHU</strong> — <code>CS24I1037</code></span>
+          <span class="team-pill"><span class="team-avatar">👤</span> <strong>JAKKA ARJUN REDDY</strong> — <code>CS24I1051</code></span>
+          <span class="team-pill"><span class="team-avatar">👤</span> <strong>H VAMSHI</strong> — <code>CS24I1063</code></span>
+        </div>
+      </div>
+
+      <div class="title-footer-note">
+        A viral contagion is sweeping across 12 metropolitan sectors. Only machine learning can forecast the next vector.
+      </div>
+    </div>
+  </div>
+
+  <!-- Page-by-Page Lore & Briefing Modal -->
+  <div id="loreModal" class="overlay-screen hidden">
+    <div class="lore-dialog">
+      <div class="lore-header">
+        <div class="lore-header-left">
+          <span class="lore-pulse-icon">📂</span>
+          <div>
+            <h2>MISSION BRIEFING & DATA SCIENCE MANUAL</h2>
+            <span class="lore-classified-tag">CLASSIFIED // EMERGENCY EPIDEMIOLOGICAL RESPONSE</span>
+          </div>
+        </div>
+        <div class="lore-pagination-pill">
+          <span id="lorePageIndicator">PAGE 1 OF 4</span>
+        </div>
+      </div>
+
+      <div class="lore-body">
+        <!-- Page 1: Lore & Setting -->
+        <div class="lore-slide active" data-slide="1">
+          <div class="slide-badge">CHAPTER 1: THE CRISIS</div>
+          <h3>Patient Zero & The Outbreak In The Metropole</h3>
+          <p class="lore-lead">
+            At 04:00 hours, quarantine integrity failed at Sector 1 (Downtown Metro). A synthetic mutagenic pathogen code-named <strong>Strain Omega</strong> escaped into the civilian population.
+          </p>
+          <div class="lore-callout danger-border">
+            <strong>The Threat:</strong>
+            <p>Infected individuals turn into hyper-aggressive hosts within hours. The contagion spreads via both airborne particles in dense crowds and direct contact vectors across the city's interconnected transit lines.</p>
+          </div>
+          <p>
+            The City Council has declared Martial Quarantine. However, resources are depleted. You have only <strong>5 to 6 autonomous Quarantine Drones</strong> per wave. You cannot shield the entire city.
+          </p>
+          <div class="lore-illustration">
+            <div class="ill-stat"><span class="ill-num">12</span><span class="ill-lbl">Districts At Risk</span></div>
+            <div class="ill-stat"><span class="ill-num">216,900</span><span class="ill-lbl">Citizens Trapped</span></div>
+            <div class="ill-stat"><span class="ill-num">5</span><span class="ill-lbl">Drones Available</span></div>
+          </div>
+        </div>
+
+        <!-- Page 2: The Data Science Mission -->
+        <div class="lore-slide" data-slide="2">
+          <div class="slide-badge">CHAPTER 2: THE MACHINE LEARNING MISSION</div>
+          <h3>Why Gut Intuition Fails: Supervised Binary Classification</h3>
+          <p class="lore-lead">
+            Human commanders trying to guess outbreaks will fail. Pandemics are complex, non-linear dynamical systems. <strong>Data Science is our only antidote.</strong>
+          </p>
+          <div class="lore-callout cyan-border">
+            <strong>The Mathematical Objective:</strong>
+            <p>We treat containment as a <strong>Supervised Binary Classification</strong> problem. For each district, our algorithm predicts a target label $Y \in \{0, 1\}$:</p>
+            <ul>
+              <li><strong>$Y = 1$ (High Risk / Outbreak Imminent):</strong> District will turn next cycle. Requires immediate Quarantine Drone deployment.</li>
+              <li><strong>$Y = 0$ (Safe / Contained):</strong> District will remain stable. Drone deployment would be a wasted False Positive.</li>
+            </ul>
+          </div>
+          <p>
+            By computing the probability $P(\text{Outbreak} \mid X)$ for each district, you can allocate your scarce drones to the most endangered sectors with surgical precision.
+          </p>
+        </div>
+
+        <!-- Page 3: Features & Telemetry -->
+        <div class="lore-slide" data-slide="3">
+          <div class="slide-badge">CHAPTER 3: EPIDEMIOLOGICAL TELEMETRY</div>
+          <h3>The 5 Predictive Features & Logistic Sigmoid Function</h3>
+          <p class="lore-lead">
+            Tactical surveillance feeds 5 quantitative features ($x_1 \dots x_5$) for every district:
+          </p>
+          <div class="lore-feature-grid">
+            <div class="lore-f-card">
+              <span class="f-code">x₁: Population Density</span>
+              <p>Residents per km². High density accelerates airborne transmission exponentially.</p>
+              <span class="f-impact positive">+ Positive Risk Factor</span>
+            </div>
+            <div class="lore-f-card">
+              <span class="f-code">x₂: Active Infected Cases</span>
+              <p>Confirmed zombie hosts actively biting and transmitting the pathogen.</p>
+              <span class="f-impact positive">+ Positive Risk Factor</span>
+            </div>
+            <div class="lore-f-card">
+              <span class="f-code">x₃: Infection Velocity (R₀)</span>
+              <p>24-hour rate of spread. A high R₀ indicates explosive exponential growth.</p>
+              <span class="f-impact positive">+ Positive Risk Factor</span>
+            </div>
+            <div class="lore-f-card">
+              <span class="f-code">x₄: Hospital Capacity</span>
+              <p>ICU beds and medical staff per 1k people. Isolates and treats victims.</p>
+              <span class="f-impact negative">- Protective Buffer</span>
+            </div>
+            <div class="lore-f-card">
+              <span class="f-code">x₅: Epicenter Distance</span>
+              <p>Kilometers from Patient Zero. Farther districts have natural reaction time.</p>
+              <span class="f-impact negative">- Protective Buffer</span>
+            </div>
+          </div>
+          <p style="margin-top:10px; font-size:0.8rem; color:var(--text-muted);">
+            The model passes the weighted sum through the <strong>Sigmoid function</strong>: $\sigma(z) = \frac{1}{1 + e^{-z}}$, squashing inputs into a clean $0\% - 100\%$ probability!
+          </p>
+        </div>
+
+        <!-- Page 4: Instructions & Tactical Controls -->
+        <div class="lore-slide" data-slide="4">
+          <div class="slide-badge">CHAPTER 4: TACTICAL PROTOCOL</div>
+          <h3>How to Play & Defend the City in 4 Steps</h3>
+          <div class="lore-steps-list">
+            <div class="step-box">
+              <span class="step-num">1</span>
+              <div>
+                <strong>Auto-Train or Tune Weights:</strong>
+                <p>Click <code>⚡ Auto-Train Model</code> to let Gradient Descent optimize the feature weights automatically, or manually adjust the sliders.</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <span class="step-num">2</span>
+              <div>
+                <strong>Calibrate Decision Threshold ($\tau$):</strong>
+                <p>Slide the threshold bar. Lower threshold ($\tau \approx 0.35$) means <strong>High Recall</strong> (catch all zombies, zero deaths). Higher threshold means <strong>High Precision</strong> (save drones, avoid false alarms).</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <span class="step-num">3</span>
+              <div>
+                <strong>Deploy Quarantine Drones:</strong>
+                <p>Click <code>Target All High-Risk</code> or click directly on any district on the radar map to deploy shields (🛡️).</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <span class="step-num">4</span>
+              <div>
+                <strong>Execute Outbreak Step:</strong>
+                <p>Click the big red <code>☣ EXECUTE OUTBREAK STEP</code> button to test your model! Inspect the resulting <strong>Confusion Matrix (TP, FP, FN, TN)</strong> and save survivors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lore-footer">
+        <div class="lore-dots">
+          <span class="lore-dot active" data-dot="1"></span>
+          <span class="lore-dot" data-dot="2"></span>
+          <span class="lore-dot" data-dot="3"></span>
+          <span class="lore-dot" data-dot="4"></span>
+        </div>
+        <div class="lore-nav-buttons">
+          <button id="btnLorePrev" class="btn btn-outline" disabled>◀ Previous</button>
+          <button id="btnLoreSkip" class="btn btn-outline">Skip Briefing</button>
+          <button id="btnLoreNext" class="btn btn-primary">Next Page ▶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

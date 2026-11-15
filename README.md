@@ -87,6 +87,12 @@ idse_project/
 │   ├── hypothesis_testing.py        # Statistical tests (t-tests & ANOVA)
 │   ├── models.py                    # Model training, 5-fold CV & GridSearch tuning
 │   └── evaluation.py                # Test set evaluation, residual analysis & case studies
+├── game/                            # ☣️ Outbreak Zero: Interactive ML Classification Game
+│   ├── index.html                   # Browser tactical game interface (Zero dependencies)
+│   ├── game.js                      # Core ML Engine: Sigmoid, Weights & Gradient Descent
+│   ├── style.css                    # Responsive tactical HUD & visual feedback
+│   ├── README.md                    # Pedagogical design, learning objectives & rubric
+│   └── PROJECT_REPORT.md            # Formal report & peer playtest evidence (5.0/5.0)
 ├── app.py                           # Interactive Streamlit Web Application
 ├── predict.py                       # Interactive CLI for single-movie predictions
 ├── main.py                          # Master execution script (reproducible pipeline)
@@ -179,7 +185,18 @@ Evaluated on held-out **20% test data ($N=144$)**:
 
 ---
 
-## 👨‍💻 7. Team Members & Course Information
+## 🎮 7. Companion Project: Outbreak Zero (Interactive ML Classification Game)
+
+This repository also houses our companion interactive educational web game: **Outbreak Zero: Predictive Analytics & Zombie Classification**, located in [`game/`](game/).
+
+* **Pedagogical Topic:** Supervised Learning — Binary Classification ($\mathcal{X} \in \mathbb{R}^5 \to \mathcal{Y} \in \{0, 1\}$), Logistic Sigmoid Activation, Decision Threshold Tuning ($\tau$), and Gradient Descent.
+* **Architecture:** Zero external dependencies (Pure Vanilla HTML5, CSS3, ES6 JavaScript). Runs instantly in any web browser without installation.
+* **How to Play:** Simply open [`game/index.html`](game/index.html) in your browser.
+* **Documentation & Rubric:** See [`game/README.md`](game/README.md) and [`game/PROJECT_REPORT.md`](game/PROJECT_REPORT.md) for full learning objectives, mathematical derivations, scenario waves, and peer playtest outcomes.
+
+---
+
+## 👨‍💻 8. Team Members & Course Information
 * **Course:** Introduction to Data Science (IDSE)
 * **Team Members:**
   1. **SAI DATTATREYA ROUTHU** — `CS24I1037`
