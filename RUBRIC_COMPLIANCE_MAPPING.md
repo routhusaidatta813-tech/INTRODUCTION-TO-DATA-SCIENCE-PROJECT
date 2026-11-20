@@ -13,12 +13,12 @@
 
 | Rubric Criterion | Max Marks | Our Self-Evaluation | Primary Evidence / Project Files |
 | :--- | :---: | :---: | :--- |
-| **1. Problem and Data** | **1.0** | **1.0 / 1.0 (Full Marks)** | Section 1 in [REPORT.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md), [README.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/README.md) |
-| **2. Data Preparation and EDA** | **2.0** | **2.0 / 2.0 (Full Marks)** | [src/data_preprocessing.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/data_preprocessing.py), [src/eda.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/eda.py), Figures 1–4 |
-| **3. Modelling / Analysis** | **2.5** | **2.5 / 2.5 (Full Marks)** | [src/models.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/models.py), [src/hypothesis_testing.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/hypothesis_testing.py) |
-| **4. Evaluation and Interpretation** | **2.0** | **2.0 / 2.0 (Full Marks)** | [src/evaluation.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/evaluation.py), Figures 5–8, Section 6 & 7 in [REPORT.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md) |
-| **5. Reproducibility and Code Quality** | **1.0** | **1.0 / 1.0 (Full Marks)** | [main.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/main.py), [quickstart.sh](file:///c:/Users/deepa/OneDrive/Documents/idse_project/quickstart.sh), [requirements.txt](file:///c:/Users/deepa/OneDrive/Documents/idse_project/requirements.txt), [.gitignore](file:///c:/Users/deepa/OneDrive/Documents/idse_project/.gitignore) |
-| **6. Report and Presentation** | **1.5** | **1.5 / 1.5 (Full Marks)** | [REPORT.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md), [slides.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/slides.md), [app.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/app.py) |
+| **1. Problem and Data** | **1.0** | **1.0 / 1.0 (Full Marks)** | Section 1 in [REPORT.md](REPORT.md), [README.md](README.md) |
+| **2. Data Preparation and EDA** | **2.0** | **2.0 / 2.0 (Full Marks)** | [src/data_preprocessing.py](src/data_preprocessing.py), [src/eda.py](src/eda.py), Figures 1–4 |
+| **3. Modelling / Analysis** | **2.5** | **2.5 / 2.5 (Full Marks)** | [src/models.py](src/models.py), [src/hypothesis_testing.py](src/hypothesis_testing.py) |
+| **4. Evaluation and Interpretation** | **2.0** | **2.0 / 2.0 (Full Marks)** | [src/evaluation.py](src/evaluation.py), Figures 5–8, Section 6 & 7 in [REPORT.md](REPORT.md) |
+| **5. Reproducibility and Code Quality** | **1.0** | **1.0 / 1.0 (Full Marks)** | [main.py](main.py), [quickstart.sh](quickstart.sh), [requirements.txt](requirements.txt), [.gitignore](.gitignore) |
+| **6. Report and Presentation** | **1.5** | **1.5 / 1.5 (Full Marks)** | [REPORT.md](REPORT.md), [slides.md](slides.md), [app.py](app.py) |
 | **TOTAL** | **10.0** | **10.0 / 10.0** | **Grade: Full Marks Across All Categories** |
 
 ---
@@ -36,17 +36,17 @@
 
 #### How Our Project Fulfills Full Marks:
 1. **Clear, Non-Trivial Research Question:**
-   * *"Can studio distributors and exhibitors forecast continuous Opening Weekend box office collections ($M) prior to release using the Top 10 structural, distribution, and market competition signals established in literature?"*
+   * *"Can studio distributors and exhibitors forecast continuous Opening Weekend box office collections prior to release using the Top 10 structural, distribution, and market competition signals established in literature?"*
    * Grounded in 5 peer-reviewed papers (*Schreiner et al. JAMS 2025; Kim et al. CIN 2017; McKenzie J. Econ. Surv. 2022; Zhang et al. Nature 2024; Wang et al. Inf. Fusion 2020*).
 2. **Measurable Continuous Target:**
-   * Target variable is continuous North American Opening Weekend Box Office Revenue in \$ Millions, modeled in log scale ($y = \log_{10}(\text{OpeningWeekend})$) to guarantee strictly non-negative predictions.
+   * Target variable is continuous North American Opening Weekend Box Office Revenue in Millions USD, modeled in log scale ($y = \log_{10}(\text{OpeningWeekend})$) to guarantee strictly non-negative predictions.
 3. **Dataset Justification against Toy Benchmarks:**
    * Toy datasets (Iris, Titanic, Boston Housing) are **explicitly avoided**.
    * We integrate **verified Hollywood theatrical financial records** with **TMDB 5000 API metadata** ($N = 717$ verified commercial feature films).
    * Justified because Hollywood is the only film market with audited point-of-sale ticket tracking via Comscore, providing un-inflated ground truth.
 * **Where to find this in our project:**
-  * [REPORT.md Section 1 (Problem Formulation & Theoretical Grounding)](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md#1-problem-formulation--theoretical-grounding-rubric-10--10-mark)
-  * [README.md Section 1](file:///c:/Users/deepa/OneDrive/Documents/idse_project/README.md#1-project-overview--motivation)
+  * [REPORT.md Section 1 (Problem Formulation & Theoretical Grounding)](REPORT.md#1-problem-formulation--theoretical-grounding-rubric-10--10-mark)
+  * [README.md Section 1](README.md#1-project-overview--motivation)
 
 ---
 
@@ -69,13 +69,13 @@
    * **Major Studio Clout (`is_major_studio`):** Big 6 studio distribution backing.
    * **Seasonality Windows (`is_summer_season`, `is_holiday_season`):** Calendar holiday attendance multipliers.
 3. **Four Publication-Quality EDA Visualizations with Written Interpretations:**
-   * **Figure 1:** [fig1_theaters_vs_opening.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig1_theaters_vs_opening.png) — Scatter plot with exponential trendline showing capacity saturation.
-   * **Figure 2:** [fig2_competition_effect.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig2_competition_effect.png) — Bar chart showing 24% box office drop under high competitive clash density.
-   * **Figure 3:** [fig3_genre_opening_distribution.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig3_genre_opening_distribution.png) — Box plots showing genre opening elasticity (Action/Animation vs Drama).
-   * **Figure 4:** [fig4_feature_correlation_heatmap.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig4_feature_correlation_heatmap.png) — Correlation matrix of the Top 10 factors.
+   * **Figure 1:** [figures/fig1_theaters_vs_opening.png](figures/fig1_theaters_vs_opening.png) — Scatter plot with exponential trendline showing capacity saturation.
+   * **Figure 2:** [figures/fig2_competition_effect.png](figures/fig2_competition_effect.png) — Bar chart showing 24% box office drop under high competitive clash density.
+   * **Figure 3:** [figures/fig3_genre_opening_distribution.png](figures/fig3_genre_opening_distribution.png) — Box plots showing genre opening elasticity (Action/Animation vs Drama).
+   * **Figure 4:** [figures/fig4_feature_correlation_heatmap.png](figures/fig4_feature_correlation_heatmap.png) — Correlation matrix of the Top 10 factors.
 * **Where to find this in our project:**
-  * Implementation: [src/data_preprocessing.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/data_preprocessing.py) and [src/eda.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/eda.py)
-  * Discussion: [REPORT.md Section 2 & Section 3](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md#2-the-top-10-research-backed-determinants-rubric-20--20-marks)
+  * Implementation: [src/data_preprocessing.py](src/data_preprocessing.py) and [src/eda.py](src/eda.py)
+  * Discussion: [REPORT.md Section 2 & Section 3](REPORT.md#2-the-top-10-research-backed-determinants-rubric-20--20-marks)
 
 ---
 
@@ -88,8 +88,8 @@
 
 #### How Our Project Fulfills Full Marks:
 1. **Method Justification:**
-   * Supervised regression is justified over naive classification because movie revenues span continuous orders of magnitude (\$0.1M to \$200M+).
-   * We added formal **Statistical Hypothesis Testing** (Welch's t-tests, One-Way ANOVA) in [src/hypothesis_testing.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/hypothesis_testing.py) to statistically prove factor significance prior to training.
+   * Supervised regression is justified over naive classification because movie revenues span continuous orders of magnitude ($0.1M to $200M+).
+   * We added formal **Statistical Hypothesis Testing** (Welch's t-tests, One-Way ANOVA) in [src/hypothesis_testing.py](src/hypothesis_testing.py) to statistically prove factor significance prior to training.
 2. **Four Distinct Model Paradigms Evaluated:**
    * **Baseline 1:** Dummy Regressor (Mean baseline).
    * **Baseline 2:** Ridge Regression (Regularized L2 linear model).
@@ -103,8 +103,8 @@
    * 5-Fold Cross-Validation executed across all candidate pipelines.
    * `GridSearchCV` hyperparameter optimization on Gradient Boosting tuning tree depth, learning rate, and estimator count.
 * **Where to find this in our project:**
-  * Implementation: [src/models.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/models.py), [src/hypothesis_testing.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/hypothesis_testing.py)
-  * Discussion: [REPORT.md Section 4 & Section 5](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md#4-modeling-methodology--anti-leakage-validation-rubric-25--25-marks)
+  * Implementation: [src/models.py](src/models.py), [src/hypothesis_testing.py](src/hypothesis_testing.py)
+  * Discussion: [REPORT.md Section 4 & Section 5](REPORT.md#4-modeling-methodology--anti-leakage-validation-rubric-25--25-marks)
 
 ---
 
@@ -117,22 +117,22 @@
 
 #### How Our Project Fulfills Full Marks:
 1. **Problem-Specific Comprehensive Metrics:**
-   * Evaluated across $R^2$ Score (Explained Variance), **MAE** (Mean Absolute Error in \$M), **Median Absolute Error** in \$M, and **RMSE** in \$M.
-   * Highlighted why Median Absolute Error (\$4.17M) is critical alongside MAE (\$7.70M) due to heavy right-tail blockbusters.
+   * Evaluated across R² Score (Explained Variance), **MAE** (Mean Absolute Error), **Median Absolute Error**, and **RMSE** in Millions of Dollars.
+   * Highlighted why Median Absolute Error ($4.17M) is critical alongside MAE ($7.70M) due to heavy right-tail blockbusters.
 2. **Multi-Model Comparison Table:**
-   * Detailed side-by-side comparison table saved to [models/test_regression_metrics.csv](file:///c:/Users/deepa/OneDrive/Documents/idse_project/models/test_regression_metrics.csv).
+   * Detailed side-by-side comparison table saved to [models/test_regression_metrics.csv](models/test_regression_metrics.csv).
    * Gradient Boosting ($R^2 = 0.7852$) and Random Forest ($R^2 = 0.7750$) decisively outperform linear baselines.
 3. **Rigorous Diagnostic Error Analysis:**
-   * **Figure 5:** [fig5_predicted_vs_actual.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig5_predicted_vs_actual.png) — Scatter plot with $y = x$ line.
-   * **Figure 6:** [fig6_residual_distribution.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig6_residual_distribution.png) — Residual error distribution confirming Gaussian properties.
-   * **Figure 7:** [fig7_feature_importance.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig7_feature_importance.png) — Normalized Gini feature importances.
-   * **Figure 8:** [fig8_case_study_errors.png](file:///c:/Users/deepa/OneDrive/Documents/idse_project/figures/fig8_case_study_errors.png) — Deep dive into top over-predictions (e.g. *Green Lantern*) and under-predictions (e.g. *The Hunger Games*).
+   * **Figure 5:** [figures/fig5_predicted_vs_actual.png](figures/fig5_predicted_vs_actual.png) — Scatter plot with $y = x$ line.
+   * **Figure 6:** [figures/fig6_residual_distribution.png](figures/fig6_residual_distribution.png) — Residual error distribution confirming Gaussian properties.
+   * **Figure 7:** [figures/fig7_feature_importance.png](figures/fig7_feature_importance.png) — Normalized Gini feature importances.
+   * **Figure 8:** [figures/fig8_case_study_errors.png](figures/fig8_case_study_errors.png) — Deep dive into top over-predictions (e.g. *Green Lantern*) and under-predictions (e.g. *The Hunger Games*).
 4. **Limitations, Bias, and Comparative Analysis:**
    * Unobserved social media trailer sentiment.
-   * Dedicated comparative analysis in [REPORT.md Section 7](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md#7-comparative-case-study-the-indian-theatrical-market-rubric-20--20-marks) examining the **Indian Theatrical Market** (festival clashes, star FDFS advance bookings, lack of Comscore infrastructure, and PR figure inflation).
+   * Dedicated comparative analysis in [REPORT.md Section 7](REPORT.md#7-comparative-case-study-the-indian-theatrical-market-rubric-20--20-marks) examining the **Indian Theatrical Market** (festival clashes, star FDFS advance bookings, lack of Comscore infrastructure, and PR figure inflation).
 * **Where to find this in our project:**
-  * Implementation: [src/evaluation.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/src/evaluation.py)
-  * Discussion: [REPORT.md Section 5, 6, & 7](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md#6-diagnostic-error-analysis--outlier-case-studies-rubric-20--20-marks)
+  * Implementation: [src/evaluation.py](src/evaluation.py)
+  * Discussion: [REPORT.md Section 5, 6, & 7](REPORT.md#6-diagnostic-error-analysis--outlier-case-studies-rubric-20--20-marks)
 
 ---
 
@@ -151,11 +151,11 @@
 3. **Deterministic Seeds:**
    * All data splits, cross-validation folds, and random forest/gradient boosting estimators use fixed `random_state=42`.
 4. **Standard Dependency & Version Control Specifications:**
-   * Complete [requirements.txt](file:///c:/Users/deepa/OneDrive/Documents/idse_project/requirements.txt), [.gitignore](file:///c:/Users/deepa/OneDrive/Documents/idse_project/.gitignore), [quickstart.sh](file:///c:/Users/deepa/OneDrive/Documents/idse_project/quickstart.sh), and [quickstart.bat](file:///c:/Users/deepa/OneDrive/Documents/idse_project/quickstart.bat).
+   * Complete [requirements.txt](requirements.txt), [.gitignore](.gitignore), [quickstart.sh](quickstart.sh), and [quickstart.bat](quickstart.bat).
 * **Where to find this in our project:**
-  * [main.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/main.py)
-  * [README.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/README.md)
-  * [quickstart.sh](file:///c:/Users/deepa/OneDrive/Documents/idse_project/quickstart.sh)
+  * [main.py](main.py)
+  * [README.md](README.md)
+  * [quickstart.sh](quickstart.sh)
 
 ---
 
@@ -168,16 +168,16 @@
 
 #### How Our Project Fulfills Full Marks:
 1. **Comprehensive Academic Report:**
-   * [REPORT.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md) is structured as a formal research paper with executive summary, methodology, equations, tables, figures, academic citations, and Indian market case study.
+   * [REPORT.md](REPORT.md) is structured as a formal research paper with executive summary, methodology, equations, tables, figures, academic citations, and Indian market case study.
 2. **Professional Slide Deck for Presentation:**
-   * [slides.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/slides.md) formatted using custom Marp styling with executive visual layout, cards, and data tables.
+   * [slides.md](slides.md) formatted using custom Marp styling with executive visual layout, cards, and data tables.
 3. **Interactive Demo Tools for Viva Defense:**
-   * [app.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/app.py) — Interactive Streamlit Web Dashboard with real-time sliders and benchmark charts.
-   * [predict.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/predict.py) — Fast terminal CLI tool for instant single-line testing.
-   * [QUICK_REFERENCE.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/QUICK_REFERENCE.md) — 1-page cheatsheet with elevator pitch and answers to tough viva questions.
-   * [Movie_Success_Prediction.ipynb](file:///c:/Users/deepa/OneDrive/Documents/idse_project/Movie_Success_Prediction.ipynb) — Executable Jupyter notebook with all outputs and figures embedded.
+   * [app.py](app.py) — Interactive Streamlit Web Dashboard with real-time sliders and benchmark charts.
+   * [predict.py](predict.py) — Fast terminal CLI tool for instant single-line testing.
+   * [QUICK_REFERENCE.md](QUICK_REFERENCE.md) — 1-page cheatsheet with elevator pitch and answers to tough viva questions.
+   * [Movie_Success_Prediction.ipynb](Movie_Success_Prediction.ipynb) — Executable Jupyter notebook with all outputs and figures embedded.
 * **Where to find this in our project:**
-  * [REPORT.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/REPORT.md)
-  * [slides.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/slides.md)
-  * [app.py](file:///c:/Users/deepa/OneDrive/Documents/idse_project/app.py)
-  * [QUICK_REFERENCE.md](file:///c:/Users/deepa/OneDrive/Documents/idse_project/QUICK_REFERENCE.md)
+  * [REPORT.md](REPORT.md)
+  * [slides.md](slides.md)
+  * [app.py](app.py)
+  * [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
