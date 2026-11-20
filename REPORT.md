@@ -208,16 +208,3 @@ To bridge machine learning models with real-world theatrical decision-making, we
   2. **Projected 3-Day Velocity Pacing:** Translates aggregate opening projections into daily operational splits: Friday opening night (40.0% / $6.35M), Saturday peak (36.0% / $5.71M), and Sunday tapering (24.0% / $3.81M).
   3. **Real-Time Market Cannibalization Alerts:** Grounded in *Kim, Hong, & Kang (2017)*, dynamically computes whether concurrent releases (≥ 4 titles) trigger high competitive dilution.
   4. **Industry Genre Benchmarking:** Visually compares the projected film against historical median opening grosses across 8 primary genres, showing whether the film exceeds or lags behind its category baseline.
-
----
-
-## 9. Viva / Oral Presentation Defense Guide (Rubric: 1.5 / 1.5 Marks)
-
-* **Q: Why predict Opening Weekend collections instead of lifetime box office?**  
-  *Answer:* As demonstrated by Schreiner et al. (2025) and McKenzie (2022), opening weekend is an "expectation market" driven by pre-release signals that studios can control (budget, marketing, screen capacity, release date). Lifetime box office is heavily confounded by word-of-mouth decay, which is impossible to observe prior to theatrical release.
-
-* **Q: How did you select the Top 10 factors?**  
-  *Answer:* Rather than throwing hundreds of noisy variables into a black-box model, we grounded our feature engineering in 5 foundational academic papers. Screen count represents physical capacity (Schreiner 2025), budget represents marketing scale, competition density captures zero-sum market cannibalization (Kim et al. 2017), and sequels capture brand equity.
-
-* **Q: Where does your model make the biggest errors?**  
-  *Answer:* Our diagnostic error analysis revealed that the model over-predicts films with massive budgets and screen saturation that suffered early pre-release trailer backlash (e.g., *Green Lantern*), and under-predicts massive cultural phenomena with pre-existing literary fanbases (e.g., *The Hunger Games*).
