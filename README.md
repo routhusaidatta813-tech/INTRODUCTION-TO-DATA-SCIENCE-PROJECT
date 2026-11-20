@@ -145,43 +145,43 @@ The deployed application provides a commercial-grade cinema analytics dashboard 
 ### Key Dashboard Modules & Explanations:
 
 1. **Executive KPI Metric Cards:**
-   * **Projected Opening Gross:** Instantly computes the point estimate ($\$15.87\text{M}$) backed by our $R^2 = 0.785$ confidence score.
-   * **Physical Screen Capacity:** Displays theater allocation ($2,900$ screens) and computes the **Per-Theater Average** ($\$5,472$/theater), a standard exhibitor health metric.
-   * **Opening Budget Recovery:** Calculates the percentage of the production budget recouped in the opening 3-day window ($10.5\%$ of $\$151\text{M}$).
-   * **Market Cannibalization:** Displays the rival clash gauge ($4$ rivals), categorizing it as *High Clashing* based on *Kim et al. (2017)*.
+   * **Projected Opening Gross:** Instantly computes the point estimate ($15.87M) backed by our R² = 0.785 confidence score.
+   * **Physical Screen Capacity:** Displays theater allocation (2,900 screens) and computes the **Per-Theater Average** ($5,472/theater), a standard exhibitor health metric.
+   * **Opening Budget Recovery:** Calculates the percentage of the production budget recouped in the opening 3-day window (10.5% of $151M).
+   * **Market Cannibalization:** Displays the rival clash gauge (4 rivals), categorizing it as *High Clashing* based on *Kim et al. (2017)*.
 
 2. **Projected Weekend Velocity Curve:**
    * Breakdowns expected daily ticket revenue pacing:
-     * **Friday (incl. Thursday previews):** $40.0\%$ ($\$6.35\text{M}$)
-     * **Saturday:** $36.0\%$ ($\$5.71\text{M}$)
-     * **Sunday:** $24.0\%$ ($\$3.81\text{M}$)
+     * **Friday (incl. Thursday previews):** 40.0% ($6.35M)
+     * **Saturday:** 36.0% ($5.71M)
+     * **Sunday:** 24.0% ($3.81M)
 
 ![Dashboard Insights & Benchmark](figures/app_dashboard_details.jpg)
 
 3. **Dynamic Market Cannibalization Alert:**
-   * Grounded in *Kim, Hong, & Kang (2017)*, the dashboard dynamically alerts the user if $\ge 4$ rival titles open in the same week window, warning that showtimes and multiplex auditoriums will be heavily divided.
+   * Grounded in *Kim, Hong, & Kang (2017)*, the dashboard dynamically alerts the user if ≥ 4 rival titles open in the same week window, warning that showtimes and multiplex auditoriums will be heavily divided.
 
 4. **Industry Genre Benchmark Chart:**
-   * Side-by-side horizontal bar chart contrasting the predicted movie (red dashed line at $\$15.9\text{M}$) against historical industry medians across Action ($\$28.5\text{M}$), Animation ($\$25.0\text{M}$), Horror ($\$16.0\text{M}$), Comedy ($\$14.5\text{M}$), and Drama ($\$8.5\text{M}$).
+   * Side-by-side horizontal bar chart contrasting the predicted movie (red dashed line at $15.9M) against historical industry medians across Action ($28.5M), Animation ($25.0M), Horror ($16.0M), Comedy ($14.5M), and Drama ($8.5M).
 
 5. **Structural Predictor Summary Checklist:**
-   * Confirms pre-release status across Franchise Equity (Original vs. Sequel), Major Studio Clout, Summer/Holiday Calendar windows, and Daily Auditorium Turnover pace (~$5$ daily showings for $115$ min runtime).
+   * Confirms pre-release status across Franchise Equity (Original vs. Sequel), Major Studio Clout, Summer/Holiday Calendar windows, and Daily Auditorium Turnover pace (approx. 5 daily showings for 115 min runtime).
 
 ---
 
 ## 📊 6. Key Experimental Results
 
-Evaluated on held-out **20% test data ($N=144$)**:
+Evaluated on held-out **20% test data (N = 144)**:
 
-| Model Architecture | $R^2$ Score | MAE ($M) | Median Absolute Error ($M) | RMSE ($M) |
+| Model Architecture | Test R² Score | Mean Absolute Error | Median Absolute Error | Root Mean Squared Error |
 | :--- | :---: | :---: | :---: | :---: |
-| **Dummy Regressor (Mean Baseline)** | -0.1513 | \$16.06M | \$8.10M | \$28.00M |
-| **Ridge Regression (Linear Baseline)** | 0.5751 | \$9.79M | \$5.25M | \$17.01M |
-| **Random Forest Regressor (Bagging)** | **0.7750** | **\$7.83M** | **\$4.17M** | **\$12.38M** |
-| **Gradient Boosting Regressor (Boosting)**| **0.7852** | **\$7.70M** | **\$4.69M** | **\$12.09M** |
-| **Tuned Gradient Boosting (GridSearch)** | 0.7331 | \$8.03M | \$4.18M | \$13.48M |
+| **Dummy Regressor (Mean Baseline)** | -0.1513 | $16.06 Million | $8.10 Million | $28.00 Million |
+| **Ridge Regression (Linear Baseline)** | 0.5751 | $9.79 Million | $5.25 Million | $17.01 Million |
+| **Random Forest Regressor (Bagging)** | **0.7750** | **$7.83 Million** | **$4.17 Million** | **$12.38 Million** |
+| **Gradient Boosting Regressor (Boosting)**| **0.7852** | **$7.70 Million** | **$4.69 Million** | **$12.09 Million** |
+| **Tuned Gradient Boosting (GridSearch)** | 0.7331 | $8.03 Million | $4.18 Million | $13.48 Million |
 
-* **Key Takeaway:** Tree-based ensemble models explain **over 78.5% of the variance** in opening weekend box office with a **Median Error of just \$4.17 Million** across titles ranging from \$0.5M to \$200M+.
+* **Key Takeaway:** Tree-based ensemble models explain **over 78.5% of the variance** in opening weekend box office with a **Median Error of just $4.17 Million** across titles ranging from $0.5M to $200M+.
 
 ---
 

@@ -75,7 +75,7 @@ Four publication-grade exploratory visualizations were constructed to examine em
 
 ### 3.3 Figure 3: Opening Weekend Box Office Distribution by Primary Genre
 ![Figure 3: Genre Distribution](figures/fig3_genre_opening_distribution.png)
-* **Written Insight:** Action and Animation command the highest median opening weekends (~$28M and ~$25M), driven by youth demographics and spectacle appeal. Conversely, Drama and Romance exhibit compressed opening distributions (~$8M–$10M median), confirming that non-spectacle genres rely on long-tail word-of-mouth rather than explosive opening weekends.
+* **Written Insight:** Action and Animation command the highest median opening weekends (approx. $28M and $25M), driven by youth demographics and spectacle appeal. Conversely, Drama and Romance exhibit compressed opening distributions ($8M to $10M median), confirming that non-spectacle genres rely on long-tail word-of-mouth rather than explosive opening weekends.
 
 ### 3.4 Figure 4: Feature Correlation Matrix
 ![Figure 4: Correlation Matrix](figures/fig4_feature_correlation_heatmap.png)
@@ -189,7 +189,7 @@ Despite theoretical suitability, implementing this model in India faces severe e
 ## 8. Reproducibility, Deployment & Live Interface (Rubric: 1.0 / 1.0 Mark)
 
 The project repository adheres to industry data engineering standards, ensuring deterministic execution and live web deployment:
-* **Single Command Execution:** `python main.py` or `./quickstart.sh` executes all cleaning, EDA, hypothesis testing, 5-fold CV, and evaluations in **~20 seconds**.
+* **Single Command Execution:** `python main.py` or `./quickstart.sh` executes all cleaning, EDA, hypothesis testing, 5-fold CV, and evaluations in **under 20 seconds**.
 * **Interactive CLI Predictor:** `predict.py` enables examiners to test any movie parameter set in real time:
   ```bash
   python predict.py --budget 150000000 --theaters 3800 --genre Action --sequel 1 --studio 1 --competition 2
